@@ -3,12 +3,14 @@ package com.paycore.loanapproval.service.impl;
 import com.paycore.loanapproval.entity.Applicant;
 import com.paycore.loanapproval.repository.ApplicantRepository;
 import com.paycore.loanapproval.service.ApplicantService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ApplicantServiceImpl implements ApplicantService {
 
     @Autowired

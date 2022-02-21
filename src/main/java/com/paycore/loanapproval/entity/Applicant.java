@@ -17,7 +17,6 @@ public class Applicant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Id
     private String idNumber;
 
     private String firstName;
