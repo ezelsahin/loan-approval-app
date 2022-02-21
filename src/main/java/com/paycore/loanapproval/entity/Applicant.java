@@ -4,27 +4,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Table
+@Table(name = "applicant")
 public class Applicant {
 
     @Id
-    private Long idNumber;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Id
+    private String idNumber;
 
     private String firstName;
 
     private String lastName;
 
-    private Long monthlySalary;
+    private int monthlyIncome;
 
-    private Long phoneNumber;
+    private String phoneNumber;
 
 
 }
