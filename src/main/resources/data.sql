@@ -4,21 +4,21 @@ CREATE TABLE applicant
     id_number VARCHAR(11) UNIQUE NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    monthly_income INT(50) NOT NULL,
+    monthly_income INT NOT NULL,
     phone_number VARCHAR(13) NOT NULL
 );
 
 CREATE TABLE rating
 (
     id_number VARCHAR(11) PRIMARY KEY,
-    loan_rating INT(50)
+    loan_rating INT
 );
 
 CREATE TABLE request_result
 (
     id_number VARCHAR(11) PRIMARY KEY,
     request_status VARCHAR(15),
-    loan_limit INT(50)
+    loan_limit INT
 );
 
 

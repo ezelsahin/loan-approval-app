@@ -13,7 +13,7 @@ public class RatingCalculationServiceImpl implements RatingCalculationService {
     private int max = 1500;
     private int min = 100;
 
-    public int getRating(int max, int min){
+    public int getRating(int max, int min){ // max ve min değerleri arasında random sayı üreten metot
         Random r = new Random();
         return r.nextInt(max - min) + min;
     }

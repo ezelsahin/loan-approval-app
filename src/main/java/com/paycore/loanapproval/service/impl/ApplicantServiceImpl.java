@@ -40,7 +40,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Override
     public boolean deleteApplicant(int id){
-        applicantRepository.delete(getApplicant(id));
+        applicantRepository.deleteById(id);
         return true;
     };
 
