@@ -1,6 +1,7 @@
 package com.paycore.loanapproval.service.impl;
 
 import com.paycore.loanapproval.entity.Loan;
+import com.paycore.loanapproval.exception.NotFoundException;
 import com.paycore.loanapproval.repository.LoanResultRepository;
 import com.paycore.loanapproval.service.LoanRequestService;
 import com.paycore.loanapproval.service.RatingCalculationService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +47,8 @@ public class LoanRequestServiceImpl implements LoanRequestService {
 
     @Override
     public Loan getLoan(String idNumber){
-
-        return loanResultRepository.findByIdNumber(idNumber); //orElseThrow(() -> new NotFoundException("Loan application"));
+        Optional<Loan> byIdNumber = Optional.ofNullable(loanResultRepository.findByIdNumber(idNumber));
+        return byIdNumber.orElseThrow(() -> new NotFoundException("Loan application"));
     }
 
     @Override
