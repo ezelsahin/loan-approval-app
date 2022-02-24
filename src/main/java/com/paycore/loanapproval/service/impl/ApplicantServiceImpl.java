@@ -1,6 +1,7 @@
 package com.paycore.loanapproval.service.impl;
 
 import com.paycore.loanapproval.entity.Applicant;
+import com.paycore.loanapproval.exception.NotFoundException;
 import com.paycore.loanapproval.repository.ApplicantRepository;
 import com.paycore.loanapproval.service.ApplicantService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,9 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Autowired
     private ApplicantRepository applicantRepository;
 
+    @Override
     public Applicant getApplicant(int id){
-        return applicantRepository.findById(id).get();
+        return applicantRepository.findById(id).orElseThrow(() -> new NotFoundException("Applicant"));
     };
 
     @Override
@@ -27,8 +29,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Override
     public Applicant addApplicant(Applicant applicant){
-        applicantRepository.save(applicant);
-        return applicant;
+        return applicantRepository.save(applicant);
     }
 
     @Override
