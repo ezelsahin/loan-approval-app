@@ -10,8 +10,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class RatingCalculationServiceImpl implements RatingCalculationService {
 
-    private int max = 1500;
-    private int min = 100;
+    private static final int max = 1500;
+    private static final int min = 100;
 
     public int getRating(int max, int min){ // max ve min değerleri arasında random sayı üreten metot
         Random r = new Random();

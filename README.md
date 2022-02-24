@@ -2,9 +2,9 @@
 
 #Entities
 - Applicant
-- LoanApplication
+- Loan
 
 #Flow
 - Making a request for loan approval
-- Checking the status of an application
+- Checking the status of a request
 - Add, update or remove an applicant
