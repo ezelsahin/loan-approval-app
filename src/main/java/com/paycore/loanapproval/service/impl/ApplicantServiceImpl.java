@@ -33,10 +33,11 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public Applicant updateApplicant(int id, Applicant applicant){
+    public boolean updateApplicant(int id, Applicant applicant){
         getApplicant(id);
         applicant.setId(id);
-        return applicantRepository.save(applicant);
+        applicantRepository.save(applicant);
+        return true;
     };
 
     @Override

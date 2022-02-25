@@ -10,7 +10,7 @@ CREATE TABLE applicant
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     monthly_income INT NOT NULL,
-    phone_number VARCHAR(13) NOT NULL
+    phone_number VARCHAR(10) NOT NULL
 );
 
 CREATE TABLE rating
@@ -28,16 +28,16 @@ CREATE TABLE request_result
 
 
 INSERT INTO applicant(id_number, first_name, last_name, monthly_income, phone_number)
-VALUES ('12345678900', 'Ahmet', 'Yılmaz', 3500, '05351234560'),
-       ('12345678901', 'Mehmet', 'Şahin', 5800, '05351234561'),
-       ('12345678902', 'Hasan', 'Ali', 3700, '05351234562'),
-       ('12345678903', 'Merve', 'Solmaz', 11000, '05351234563'),
-       ('12345678904', 'Cansu', 'Kara', 4700, '05351234564'),
-       ('12345678905', 'Aylin', 'Budak', 5200, '05351234565'),
-       ('12345678906', 'Mert', 'Aydın', 8400, '05351234566'),
-       ('12345678907', 'Kader', 'Arslan', 4300, '05351234567'),
-       ('12345678908', 'Tolga', 'Sönmez', 3100, '05351234568'),
-       ('12345678909', 'Canan', 'Sezgin', 6200, '05351234569');
+VALUES ('12345678900', 'Ahmet', 'Yılmaz', 3500, '5351234560'),
+       ('12345678901', 'Mehmet', 'Şahin', 5800, '5351234561'),
+       ('12345678902', 'Hasan', 'Ali', 3700, '5351234562'),
+       ('12345678903', 'Merve', 'Solmaz', 11000, '5351234563'),
+       ('12345678904', 'Cansu', 'Kara', 4700, '5351234564'),
+       ('12345678905', 'Aylin', 'Budak', 5200, '5351234565'),
+       ('12345678906', 'Mert', 'Aydın', 8400, '5351234566'),
+       ('12345678907', 'Kader', 'Arslan', 4300, '5351234567'),
+       ('12345678908', 'Tolga', 'Sönmez', 3100, '5351234568'),
+       ('12345678909', 'Canan', 'Sezgin', 6200, '5351234569');
 
 
 INSERT INTO rating(id_number, loan_rating)

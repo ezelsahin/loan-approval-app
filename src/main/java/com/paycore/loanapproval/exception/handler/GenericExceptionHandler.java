@@ -13,16 +13,16 @@ import java.util.Map;
 public class GenericExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Map> handleNotfoundException(NotFoundException exception) {
+    public ResponseEntity<Map> handleNotFoundException(NotFoundException exception) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", exception.getMessage());
+        response.put("Message", exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map> handleException(Exception exception) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", exception.getMessage());
+        response.put("Message", exception.getMessage());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
     }
 
