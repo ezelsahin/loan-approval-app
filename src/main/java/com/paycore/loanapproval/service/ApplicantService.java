@@ -12,7 +12,7 @@ public interface ApplicantService {
 
     Applicant addApplicant(Applicant applicant); // yeni kullanıcı ekle
 
-    Applicant updateApplicant(int id, Applicant applicant); // kullanıcıyı güncelle
+    boolean updateApplicant(int id, Applicant applicant); // kullanıcıyı güncelle
 
     boolean deleteApplicant(int id); // kullanıcı sil
 

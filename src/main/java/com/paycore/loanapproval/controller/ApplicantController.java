@@ -29,29 +29,18 @@ public class ApplicantController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getApplicant(@PathVariable int id){
-        ResponseEntity<?> response = null;
-        Applicant applicant = null;
-
-        try {
-            applicant = applicantService.getApplicant(id);
-            response = new ResponseEntity<>(applicant, HttpStatus.OK);
-        } catch (NotFoundException exception) {
-            response = new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception exception) {
-            response = new ResponseEntity<>(exception.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
-        }
-
+        Applicant applicant = applicantService.getApplicant(id);
+        ResponseEntity<?> response = new ResponseEntity<>(applicant, HttpStatus.OK);
         return response;
-
     }
 
-    @PostMapping ("/add")
+    @PostMapping("/add")
     public Applicant saveApplicant(@RequestBody Applicant applicant){
         return applicantService.addApplicant(applicant);
     }
 
     @PutMapping("/update/{id}")
-    public Applicant updateApplicant(@RequestParam int id, @RequestBody Applicant applicant) {
+    public boolean updateApplicant(@PathVariable int id, @RequestBody Applicant applicant) {
         return applicantService.updateApplicant(id, applicant);
     }
 
