@@ -21,4 +21,6 @@ public class Loan {
 
     private int loanLimit;
 
+    private int rating;
+
 }

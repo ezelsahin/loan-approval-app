@@ -1,6 +1,5 @@
 -- Table Schemas
 DROP TABLE IF EXISTS applicant;
-DROP TABLE IF EXISTS rating;
 DROP TABLE IF EXISTS request_result;
 
 CREATE TABLE applicant
@@ -13,19 +12,13 @@ CREATE TABLE applicant
     phone_number VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE rating
-(
-    id_number VARCHAR(11) PRIMARY KEY,
-    loan_rating INT
-);
-
 CREATE TABLE request_result
 (
     id_number VARCHAR(11) PRIMARY KEY,
     request_status VARCHAR(15),
-    loan_limit INT
+    loan_limit INT,
+    rating INT
 );
-
 
 INSERT INTO applicant(id_number, first_name, last_name, monthly_income, phone_number)
 VALUES ('12345678900', 'Ahmet', 'Yılmaz', 3500, '5351234560'),
@@ -40,27 +33,14 @@ VALUES ('12345678900', 'Ahmet', 'Yılmaz', 3500, '5351234560'),
        ('12345678909', 'Canan', 'Sezgin', 6200, '5351234569');
 
 
-INSERT INTO rating(id_number, loan_rating)
-VALUES ('12345678900', 488),
-       ('12345678901', 822),
-       ('12345678902', 435),
-       ('12345678903', 1348),
-       ('12345678904', 755),
-       ('12345678905', 387),
-       ('12345678906', 925),
-       ('12345678907', 1034),
-       ('12345678908', 660),
-       ('12345678909', 1130);
-
-
-INSERT INTO request_result(id_number, request_status, loan_limit)
-VALUES ('12345678900', 'DENIED', 0),
-       ('12345678901', 'APPROVED', 20000),
-       ('12345678902', 'DENIED', 0),
-       ('12345678903', 'APPROVED', 44000),
-       ('12345678904', 'APPROVED', 18800),
-       ('12345678905', 'DENIED', 0),
-       ('12345678906', 'APPROVED', 20000),
-       ('12345678907', 'APPROVED', 17200),
-       ('12345678908', 'APPROVED', 10000),
-       ('12345678909', 'APPROVED', 24800);
+INSERT INTO request_result(id_number, request_status, loan_limit, rating)
+VALUES ('12345678900', 'DENIED', 0, 488),
+       ('12345678901', 'APPROVED', 20000, 822),
+       ('12345678902', 'DENIED', 0, 435),
+       ('12345678903', 'APPROVED', 44000, 1348),
+       ('12345678904', 'APPROVED', 18800, 755),
+       ('12345678905', 'DENIED', 0, 387),
+       ('12345678906', 'APPROVED', 20000, 925),
+       ('12345678907', 'APPROVED', 17200, 1034),
+       ('12345678908', 'APPROVED', 10000, 660),
+       ('12345678909', 'APPROVED', 24800, 1130);
