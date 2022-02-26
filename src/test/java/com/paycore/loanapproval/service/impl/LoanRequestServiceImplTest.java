@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,6 +20,9 @@ class LoanRequestServiceImplTest {
 
     @Mock
     private LoanResultRepository loanResultRepository;
+
+    @InjectMocks
+    private RatingCalculationServiceImpl ratingCalculationService;
 
     @InjectMocks
     private LoanRequestServiceImpl loanRequestService;
@@ -32,7 +34,7 @@ class LoanRequestServiceImplTest {
         int monthlyIncome = 4000;
 
         //validation
-        Assert.assertEquals(loanRequestService.maxLimit(rating, monthlyIncome), 0);
+        Assert.assertTrue(loanRequestService.maxLimit(rating, monthlyIncome) == 0);
     }
 
     @Test
@@ -87,13 +89,36 @@ class LoanRequestServiceImplTest {
     }
 
     @Test
+    void getRating() {
+        //init
+        int rating = ratingCalculationService.getRating();
+
+        //validation
+        Assert.assertTrue(rating >= 100 ? (rating <= 1500 ? true : false) : false);
+
+    }
+
+    @Test
     void sendRequest() {
+        //init
+        String idNumber = "98765432101";
+        int monthlyIncome = 6000;
+        //int rating = ratingCalculationService.getRating();
+
+        //stub
+        when(ratingCalculationService.getRating()).thenReturn(ratingCalculationService.getRating());
+        when(loanRequestService.sendRequest(idNumber, monthlyIncome)).thenReturn(loanResultRepository.findByIdNumber(idNumber));
+
+        Loan loan = loanRequestService.sendRequest(idNumber, monthlyIncome);
+
+        //validation
+        Assert.assertEquals(loan.getIdNumber(), idNumber);
     }
 
     @Test
     void getLoan_successful() {
         //init
-        Loan expectedLoan = new Loan("98765432101", "APPROVED", 20000);
+        Loan expectedLoan = new Loan("98765432101", "APPROVED", 20000, 1250);
 
         //stub
         when(loanResultRepository.findByIdNumber(expectedLoan.getIdNumber())).thenReturn(expectedLoan);
@@ -122,8 +147,8 @@ class LoanRequestServiceImplTest {
     @Test
     void getAllLoanRequests() {
         //init
-        Loan loan1 = new Loan("98765432101", "APPROVED", 20000);
-        Loan loan2 = new Loan("98765432102", "DENIED", 0);
+        Loan loan1 = new Loan("98765432101", "APPROVED", 20000, 1250);
+        Loan loan2 = new Loan("98765432102", "DENIED", 0, 350);
         List<Loan> expectedLoans = new ArrayList<>();
         expectedLoans.add(loan1);
         expectedLoans.add(loan2);

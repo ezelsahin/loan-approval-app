@@ -73,8 +73,7 @@ class ApplicantControllerTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        List<Applicant> actualApplicants = new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<Applicant>>() {
-        });
+        List<Applicant> actualApplicants = new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<Applicant>>() {});
         assertEquals(expectedApplicants.size(), actualApplicants.size());
 
     }

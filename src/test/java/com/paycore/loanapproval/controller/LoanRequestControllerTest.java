@@ -47,9 +47,9 @@ class LoanRequestControllerTest {
 
     private List<Loan> getTestLoans() {
         List<Loan> loans = new ArrayList<>();
-        Loan loan1 = new Loan("98765432101", "APPROVED", 20000);
-        Loan loan2 = new Loan("98765432102", "DENIED", 0);
-        Loan loan3 = new Loan("98765432103", "APPROVED", 15000);
+        Loan loan1 = new Loan("98765432101", "APPROVED", 20000, 1250);
+        Loan loan2 = new Loan("98765432102", "DENIED", 0, 350);
+        Loan loan3 = new Loan("98765432103", "APPROVED", 15000, 850);
         loans.add(loan1);
         loans.add(loan2);
         loans.add(loan3);

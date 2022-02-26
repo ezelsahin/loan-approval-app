@@ -8,14 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +26,7 @@ class ApplicantServiceImplTest {
     private ApplicantServiceImpl applicantService;
 
     @Test
-    void getApplicant_successful() {
+    void getApplicant_by_id_successful() {
 
         //init
         Applicant expectedApplicant = new Applicant(1, "98765432101", "Ali", "Tatlı", 4000, "5351234561");
@@ -45,7 +43,24 @@ class ApplicantServiceImplTest {
     }
 
     @Test
-    void getApplicant_not_found() {
+    void getApplicant_by_id_number_successful() {
+
+        //init
+        Applicant expectedApplicant = new Applicant(1, "98765432101", "Ali", "Tatlı", 4000, "5351234561");
+
+        //stub
+        when(applicantRepository.findByIdNumber("98765432101")).thenReturn(expectedApplicant);
+
+        //then
+        Applicant actualApplicant = applicantService.getApplicant("98765432101");
+
+        //validation
+        Assert.assertEquals(expectedApplicant.getIdNumber(), actualApplicant.getIdNumber());
+
+    }
+
+    @Test
+    void getApplicant_by_id_not_found() {
 
         //validation
         Assert.assertThrows(NotFoundException.class,
@@ -54,7 +69,18 @@ class ApplicantServiceImplTest {
                 }
 
         );
+    }
 
+    @Test
+    void getApplicant_by_id_number_not_found() {
+
+        //validation
+        Assert.assertThrows(NotFoundException.class,
+                () -> {
+                    applicantService.getApplicant("98765432101");
+                }
+
+        );
     }
 
     @Test
@@ -94,18 +120,25 @@ class ApplicantServiceImplTest {
     @Test
     void updateApplicant() {
         //init
+        List<Applicant> applicants = new ArrayList<>();
         Applicant actualApplicant = new Applicant(1, "98765432101", "Ali", "Tatlı", 4000, "5351234561");
-        Applicant updatedApplicant = new Applicant(2, "98765432102", "Veli", "Ekşi", 6000, "5351234562");
+        applicants.add(actualApplicant);
+        Applicant expectedApplicant = applicants.get(0);
+        expectedApplicant.setFirstName("Veli");
+        expectedApplicant.setMonthlyIncome(6000);
+        applicants.add(expectedApplicant);
 
         //stub
-        when(applicantRepository.save(actualApplicant)).thenReturn(actualApplicant); // bu satır gerekli midir?
+        // when(applicants.get(1)).thenReturn(actualApplicant);
+        when(applicantService.updateApplicant(1, expectedApplicant)).thenReturn(true);
+        //when(applicantRepository.save(expectedApplicant)).thenReturn(actualApplicant); // bu satır gerekli midir?
+
 
         //then
-        applicantService.updateApplicant(1, updatedApplicant);
+        //applicantService.updateApplicant(1, updatedApplicant);
 
         //validation
-        Assert.assertEquals(actualApplicant.getIdNumber(), updatedApplicant.getIdNumber());
-
+        Assert.assertEquals(applicants.get(0), expectedApplicant);
     }
 
     @Test
