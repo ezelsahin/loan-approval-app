@@ -109,7 +109,7 @@ class ApplicantControllerTest {
         // stub
         when(applicantService.getApplicant("98765432101")).thenReturn(expectedApplicants.get(0));
 
-        MockHttpServletResponse response = mvc.perform(get("/applicant/98765432101")
+        MockHttpServletResponse response = mvc.perform(get("/applicant/idNumber/98765432101")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn().getResponse();
@@ -171,6 +171,9 @@ class ApplicantControllerTest {
 
     @Test
     void deleteApplicant() throws Exception {
+        List<Applicant> expectedApplicants = getTestApplicants();
+        Applicant expectedApplicant = new Applicant(1,"98765432103", "Zeynep", "Uzun", 7000, "5351234563");
+
         // stub
         MockHttpServletResponse response = mvc.perform(delete("/applicant/delete/1")
                         .accept(MediaType.APPLICATION_JSON)
@@ -179,8 +182,7 @@ class ApplicantControllerTest {
                 .andReturn().getResponse();
 
         // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        String actualResponseStr = response.getContentAsString();
-        Assert.assertEquals("true", actualResponseStr);
+        Mockito.verify(applicantService, Mockito.times(1)).deleteApplicant(1);
+
     }
 }

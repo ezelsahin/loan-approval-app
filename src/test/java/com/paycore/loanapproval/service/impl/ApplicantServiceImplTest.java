@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -131,20 +130,12 @@ class ApplicantServiceImplTest {
         Applicant expectedApplicant = applicants.get(0);
         expectedApplicant.setFirstName("Veli");
         expectedApplicant.setMonthlyIncome(6000);
-        applicants.add(expectedApplicant);
-
-        //stub
-        when(applicantRepository.findById(eq(1))).thenReturn(Optional.of(expectedApplicant));
-        applicantService.updateApplicant(1, expectedApplicant);
-        //when(applicantRepository.save(expectedApplicant)).thenReturn(actualApplicant);
-        verify(applicantRepository, Mockito.times(1)).save(argThat(arg->arg.getIdNumber().equals("98765432101")));
-
 
         //then
-        //applicantService.updateApplicant(1, updatedApplicant);
+        applicantService.updateApplicant(1, expectedApplicant);
 
         //validation
-        Assert.assertEquals(applicants.get(0), expectedApplicant);
+        Assert.assertEquals(applicants.get(0).getFirstName(), expectedApplicant.getFirstName());
     }
 
     @Test

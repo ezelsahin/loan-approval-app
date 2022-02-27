@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Contains all loan CRUD operations and other operations methods
+ */
 @Service
 @RequiredArgsConstructor
 public class LoanRequestServiceImpl implements LoanRequestService {
@@ -30,7 +33,7 @@ public class LoanRequestServiceImpl implements LoanRequestService {
     private int ratio = 4 ;
 
     @Override
-    public int maxLimit(int rating, int monthlyIncome){ // maaş ve kredi skoruna göre maksimum limit hesabı yapılıyor
+    public int maxLimit(int rating, int monthlyIncome){
         return ( rating >= 500 ? ( (rating < 1000) ? (monthlyIncome > 5000 ? 20000 : 10000 ) : (monthlyIncome * ratio) ) : 0);
     }
 
@@ -53,11 +56,11 @@ public class LoanRequestServiceImpl implements LoanRequestService {
     }
 
     @Override
-    public String sendSms(String idNumber, RequestStatus requestStatus, int MaxLimit){
+    public String sendSms(String idNumber, RequestStatus requestStatus, int maxLimit){
 
         String phoneNumber = applicantRepository.findByIdNumber(idNumber).getPhoneNumber();
 
-        String message = phoneNumber + ": Your loan request " + requestStatus + "! The maximum loan limit you can get is " + MaxLimit + " TL!";
+        String message = phoneNumber + ": Your loan request " + requestStatus + "! The maximum loan limit you can get is " + maxLimit + " TL!";
 
         return message;
     }

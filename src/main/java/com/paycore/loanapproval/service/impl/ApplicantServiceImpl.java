@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * System all applicant CRUD operations
+ * Contains all applicant CRUD operations methods
  */
 @Service
 @RequiredArgsConstructor
@@ -22,10 +22,6 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Autowired
     private ApplicantRepository applicantRepository;
 
-    /**
-     * @param id
-     * @return
-     */
     @Override
     public Applicant getApplicant(int id){
         return applicantRepository.findById(id).orElseThrow(() -> new NotFoundException("Applicant"));

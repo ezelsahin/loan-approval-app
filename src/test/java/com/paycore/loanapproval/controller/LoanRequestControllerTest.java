@@ -2,6 +2,7 @@ package com.paycore.loanapproval.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.paycore.loanapproval.entity.Applicant;
 import com.paycore.loanapproval.entity.Loan;
 import com.paycore.loanapproval.entity.RequestStatus;
 import com.paycore.loanapproval.exception.handler.GenericExceptionHandler;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +28,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @ExtendWith(MockitoExtension.class)
 class LoanRequestControllerTest {
@@ -35,6 +37,9 @@ class LoanRequestControllerTest {
 
     @Mock
     private LoanRequestServiceImpl loanRequestService;
+
+    @Mock
+    private ApplicantController applicantController;
 
     @InjectMocks
     private LoanRequestController loanRequestController;
@@ -59,7 +64,21 @@ class LoanRequestControllerTest {
     }
 
     @Test
-    void sendRequest() {
+    void submitRequest() throws Exception {
+        // init
+        Applicant applicant = new Applicant(1, "98765432101", "Ali", "Tatlı", 4000, "5351234561");
+
+        // stub
+        loanRequestController.submitRequest(applicant);
+
+        MockHttpServletResponse response = mvc.perform(post("/loan/submit")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn().getResponse();
+
+        // then
+        Mockito.verify(applicantController, Mockito.times(1)).saveApplicant(applicant);
     }
 
     @Test

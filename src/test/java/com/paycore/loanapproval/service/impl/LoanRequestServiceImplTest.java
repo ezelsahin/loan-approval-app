@@ -102,7 +102,6 @@ class LoanRequestServiceImplTest {
         //init
         String idNumber = "98765432101";
         int monthlyIncome = 6000;
-        //int rating = ratingCalculationService.getRating();
         Applicant applicant = new Applicant();
         applicant.setPhoneNumber("5557771144");
 
@@ -114,9 +113,7 @@ class LoanRequestServiceImplTest {
 
         loanRequestService.sendRequest(idNumber, monthlyIncome);
 
-        //validation
-        //Assert.assertEquals(loan.getIdNumber(), idNumber);
-
+        //validate
         verify(loanResultRepository, Mockito.times(1)).save(eq(loan));
     }
 

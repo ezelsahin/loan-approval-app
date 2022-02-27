@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controls all requests send to the "/loan" url and responses them
+ */
 @RestController
 @RequestMapping("/loan")
 public class LoanRequestController {
@@ -20,22 +23,30 @@ public class LoanRequestController {
     @Autowired
     private ApplicantController applicantController;
 
+    /**
+     * When applicant form on index page is filled and clicked to submit button this method gets called and saves
+     * the new applicant entity to the database with given information on form. Then calls the sendRequest method
+     * with required parameters for calculation of maximum loan limit for given applicant.
+     * @param applicant A given applicant entity with all parameters
+     */
     @PostMapping("/submit")
-    public void submitRequest(Applicant applicant) {    //başvuruyu alan ve gerçekleştiren metot
+    public void submitRequest(Applicant applicant) {
         applicantController.saveApplicant(applicant);
         loanRequestService.sendRequest(applicant.getIdNumber(), applicant.getMonthlyIncome());
     }
 
-//    public boolean sendRequest(String idNumber, int monthlyIncome) {    //başvuru işlemini gerçekleştiren metot
-//        loanRequestService.sendRequest(idNumber, monthlyIncome)
-//        return true;
-//    }
-
+    /**
+     * @return Returns all loan entities which are saved in the database on "/loan/all" url
+     */
     @GetMapping("/all")
     public List<Loan> getAllLoanRequest() {      //tüm başvuruları görüntüleme metodu
         return loanRequestService.getAllLoanRequests();
-    }  //tüm başvuruları getir
+    }
 
+    /**
+     * @param idNumber An idNumber value which an applicant entity has
+     * @return Returns the loan entity which has given idNumber value on "/loan/idNumber/{idNumber}" url
+     */
     @GetMapping("/idNumber/{idNumber}")
     public ResponseEntity<?> getLoan(@PathVariable String idNumber) {   //başvuru sorgulama metodu
         Loan loan = loanRequestService.getLoan(idNumber);
@@ -43,6 +54,11 @@ public class LoanRequestController {
         return response;
     }
 
+    /**
+     * @param phoneNumber Value of a phoneNumber parameter which belongs to an applicant entity
+     * @return Returns the SMS message which is generated for owner of the given phoneNumber value
+     * on "/loan/sms/{phoneNumber}" url
+     */
     @GetMapping("/sms/{phoneNumber}")
     public String getSms(@PathVariable String phoneNumber){
         return loanRequestService.showSms(phoneNumber);

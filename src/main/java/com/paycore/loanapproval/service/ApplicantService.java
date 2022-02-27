@@ -4,18 +4,49 @@ import com.paycore.loanapproval.entity.Applicant;
 
 import java.util.List;
 
+/**
+ * Service for all applicant CRUD operations
+ */
 public interface ApplicantService {
 
-    Applicant getApplicant(int id); // id ile kullanıcıyı getir
+    /**
+     * Gets an applicant entity from database with given id value
+     * @param id An id value which given to applicant while saving it to database table
+     * @return Returns the applicant entity which has given id value
+     */
+    Applicant getApplicant(int id);
 
-    Applicant getApplicant(String idNumber); // idNumber ile kullanıcıyı getir
+    /**
+     * Gets an applicant entity from database with given idNumber value
+     * @param idNumber An idNumber value which an applicant entity has
+     * @return Returns the applicant entity which has given idNumber value
+     */
+    Applicant getApplicant(String idNumber);
 
-    List<Applicant> getAllApplicants(); // tüm kullanıcıları getir
+    /**
+     * Shows all applicant information in the database
+     * @return Returns all applicant entities that are saved to the database
+     */
+    List<Applicant> getAllApplicants();
 
-    Applicant addApplicant(Applicant applicant); // yeni kullanıcı ekle
+    /**
+     * Adds new applicant entities
+     * @param applicant A given applicant entity with all parameters
+     * @return Returns the applicant entity which is added to the database
+     */
+    Applicant addApplicant(Applicant applicant);
 
-    void updateApplicant(int id, Applicant applicant); // kullanıcıyı güncelle
+    /**
+     * Updates an already saved applicants parameters which has given id value with given applicant parameters
+     * @param id An id value which given to applicant while saving it to database table
+     * @param applicant A given applicant entity with all parameters
+     */
+    void updateApplicant(int id, Applicant applicant);
 
-    void deleteApplicant(int id); // kullanıcı sil
+    /**
+     * Deletes a saved applicant entity which has given id value
+     * @param id An id value which given to applicant while saving it to database table
+     */
+    void deleteApplicant(int id);
 
 }
