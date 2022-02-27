@@ -24,6 +24,8 @@ görüntülenebilmektedir.
 Proje Java 11 üzerinden oluşturulmuştur. Oluşturulan `data.sql` dosyası ile test yapılabilecek örnek veriler 
 kaydedilmiştir. Önyüz için uygulamanın REST mimariye uygun olabilmesi açısından JavaScript kullanılmıştır.
 
+![Image](https://github.com/ezelsahin/loan-approval-app/blob/master/project_structure.jpg)
+
 ## Kullanılan Teknolojiler
 - Spring Boot
 - REST
