@@ -98,16 +98,6 @@ class LoanRequestServiceImplTest {
     }
 
     @Test
-    void getRating() {
-        //init
-        int rating = ratingCalculationService.getRating();
-
-        //validation
-        Assert.assertTrue(rating >= 100 & rating <= 1500);
-
-    }
-
-    @Test
     void sendRequest() {
         //init
         String idNumber = "98765432101";

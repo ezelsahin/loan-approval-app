@@ -6,11 +6,15 @@ import com.paycore.loanapproval.repository.ApplicantRepository;
 import com.paycore.loanapproval.service.ApplicantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * System all applicant CRUD operations
+ */
 @Service
 @RequiredArgsConstructor
 public class ApplicantServiceImpl implements ApplicantService {
@@ -18,6 +22,10 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Autowired
     private ApplicantRepository applicantRepository;
 
+    /**
+     * @param id
+     * @return
+     */
     @Override
     public Applicant getApplicant(int id){
         return applicantRepository.findById(id).orElseThrow(() -> new NotFoundException("Applicant"));
@@ -40,17 +48,19 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    public boolean updateApplicant(int id, Applicant applicant){
-        getApplicant(id);
+    public void updateApplicant(int id, Applicant applicant){
         applicant.setId(id);
         applicantRepository.save(applicant);
-        return true;
-    };
+    }
 
     @Override
-    public boolean deleteApplicant(int id){
-        applicantRepository.deleteById(id);
-        return true;
+    public void deleteApplicant(int id){
+        try {
+            applicantRepository.deleteById(id);
+        }catch(EmptyResultDataAccessException exception){
+            throw new NotFoundException(String.valueOf(id));
+
+        }
     };
 
 }

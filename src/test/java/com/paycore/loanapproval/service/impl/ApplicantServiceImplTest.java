@@ -8,12 +8,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,7 +68,7 @@ class ApplicantServiceImplTest {
     void getApplicant_by_id_not_found() {
 
         //validation
-        Assert.assertThrows(NotFoundException.class,
+        assertThrows(NotFoundException.class,
                 () -> {
                     applicantService.getApplicant(1);
                 }
@@ -76,7 +80,7 @@ class ApplicantServiceImplTest {
     void getApplicant_by_id_number_not_found() {
 
         //validation
-        Assert.assertThrows(NotFoundException.class,
+        assertThrows(NotFoundException.class,
                 () -> {
                     applicantService.getApplicant("98765432101");
                 }
@@ -131,9 +135,9 @@ class ApplicantServiceImplTest {
 
         //stub
         when(applicantRepository.findById(eq(1))).thenReturn(Optional.of(expectedApplicant));
-        Boolean result = applicantService.updateApplicant(1, expectedApplicant);
+        applicantService.updateApplicant(1, expectedApplicant);
         //when(applicantRepository.save(expectedApplicant)).thenReturn(actualApplicant);
-        Assert.assertTrue(result);
+        verify(applicantRepository, Mockito.times(1)).save(argThat(arg->arg.getIdNumber().equals("98765432101")));
 
 
         //then
@@ -158,9 +162,14 @@ class ApplicantServiceImplTest {
 
     @Test
     void deleteApplicant_not_found() {
+        int mockID = 111;
+        doThrow(EmptyResultDataAccessException.class).when(applicantRepository).deleteById(mockID);
 
         //validation
-        Assert.assertFalse(NotFoundException.class.equals(applicantService.deleteApplicant(1)));
+        NotFoundException nfe = assertThrows(
+                NotFoundException.class,
+                () ->applicantService.deleteApplicant(mockID));
+        assertEquals(nfe.getMessage(), String.format("%d not found!", mockID));
 
     }
 }

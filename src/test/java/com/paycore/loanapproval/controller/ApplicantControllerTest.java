@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.paycore.loanapproval.entity.Applicant;
 import com.paycore.loanapproval.exception.handler.GenericExceptionHandler;
+import com.paycore.loanapproval.repository.ApplicantRepository;
 import com.paycore.loanapproval.service.impl.ApplicantServiceImpl;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -37,6 +38,9 @@ class ApplicantControllerTest {
 
     @Mock
     private ApplicantServiceImpl applicantService;
+
+    @Mock
+    private ApplicantRepository applicantRepository;
 
     @InjectMocks
     private ApplicantController applicantController;
@@ -152,7 +156,6 @@ class ApplicantControllerTest {
         // stub
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String expectedApplicantJsonStr = ow.writeValueAsString(expectedApplicant);
-        when(applicantService.updateApplicant(1, expectedApplicant)).thenReturn(true);
 
         MockHttpServletResponse response = mvc.perform(put("/applicant/update/1")
                         .accept(MediaType.APPLICATION_JSON)
@@ -169,10 +172,6 @@ class ApplicantControllerTest {
     @Test
     void deleteApplicant() throws Exception {
         // stub
-        List<Applicant> expectedApplicants = getTestApplicants();
-
-        Mockito.when(applicantService.deleteApplicant(1)).thenReturn(true);
-
         MockHttpServletResponse response = mvc.perform(delete("/applicant/delete/1")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))

@@ -9,8 +9,8 @@ Uygulama basit bir form sayfası ile temel kullanıcı bilgilerini almaktadır. 
 aylık gelir ve telefon numarası bilgilerinden oluşmaktadır. Form aracılığıyla alınan bilgiler maksimum limit sorgulama 
 işlemi için ilgili metoda iletilmektedir. Aynı zamanda alınan bilgiler ile kullanıcı profili kullanıcı veritabanına 
 kaydedilmektedir. Yapılan sorgulama işlemi sonucunda ortaya çıkan çekilebilir maksimum kredi miktarı, kullanıcının 
-telefon numarasına SMS ile gönderilmektedir. (SMS ile gönderme işlemi gerçekten SMS göndermemekte, yalnızca basit bir 
-metot ile simüle etmektedir. Oluşturulan SMS mesajı terminalde gösterilmektedir.)
+telefon numarasına SMS ile gönderilmektedir. (SMS ile gönderme işlemi yalnızca basit bir metot ile simüle etmektedir. 
+Oluşturulan SMS mesajı terminalde gösterilmektedir.)
 
 Kredi limiti sorgulama işleminin yanı sıra kullanıcılar daha önceden gerçekleştirilmiş bir kredi limiti sorgulama 
 işleminin sonucunu da görüntüleyebilmektedir. Bunun için yalnızca kimlik numarasıyla bir sorgulama yapılmakta ve ilgili 
@@ -21,25 +21,27 @@ yapılabilmektedir. Dolayısıyla veritabanına yeni kullanıcılar tanımlanabi
 güncellenebilmekte, mevcut kullanıcı bilgileri silinebilmekte ve mevcut tüm kullanıcıların bilgileri 
 görüntülenebilmektedir.
 
-Önyüz için JavaScript kullanılmıştır.
+Proje Java 11 üzerinden oluşturulmuştur. Oluşturulan `data.sql` dosyası ile test yapılabilecek örnek veriler 
+kaydedilmiştir. Önyüz için uygulamanın REST mimariye uygun olabilmesi açısından JavaScript kullanılmıştır.
 
 ## Kullanılan Teknolojiler
-
 - Spring Boot
+- REST
 - Hibernate
 - Maven
 - PostgreSQL
 - Swagger
 - JavaScript
 
-## Model
-- Applicant
-- Loan
+## Nasıl Çalışır
+Terminalden `mvn spring-boot:run` komutunu çalıştırınız. Ardından projenin sisteminizde bulunduğu `"cd /Project root/"`
+path'ini giriniz.
 
-## Projeyi Çalıştırmak İçin Gerekenler
+## Gereklilikler
+- Uygulama `localhost:8080` üzerinden ayağa kalkmaktadır
 - Sisteminizde PostgreSQL kurulu olmalıdır
-- "application.properties" dosyasında PostgreSQL username ve password alanları kendi bilgilerinizle güncellenmelidir
-- Uygulama PostgreSQL üzerinden "5434" portunu kullanmaktadır, bu portun boşta olduğundan emin olunuz
-- Swagger adresi: http://localhost:8080/swagger-ui/index.html?configUrl=/loan-approval-app/swagger-config
-- 
+- `application.properties` dosyasında PostgreSQL `username` ve `password` alanları kendi bilgilerinizle güncellenmelidir
+- Uygulama PostgreSQL üzerinden "5434" portunu kullanmaktadır, bu portun boşta olduğundan emin olunmalıdır
+- Swagger adresi: `http://localhost:8080/swagger-ui/index.html?configUrl=/loan-approval-app/swagger-config`
+
 

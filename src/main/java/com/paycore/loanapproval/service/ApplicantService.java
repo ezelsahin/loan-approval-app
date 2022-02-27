@@ -14,8 +14,8 @@ public interface ApplicantService {
 
     Applicant addApplicant(Applicant applicant); // yeni kullanıcı ekle
 
-    boolean updateApplicant(int id, Applicant applicant); // kullanıcıyı güncelle
+    void updateApplicant(int id, Applicant applicant); // kullanıcıyı güncelle
 
-    boolean deleteApplicant(int id); // kullanıcı sil
+    void deleteApplicant(int id); // kullanıcı sil
 
 }
