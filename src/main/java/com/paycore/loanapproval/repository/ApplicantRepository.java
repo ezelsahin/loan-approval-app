@@ -7,5 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ApplicantRepository extends JpaRepository<Applicant, Integer> {
 
+    Applicant findByIdNumber(String idNumber);
+
+    Applicant findByPhoneNumber(String phoneNumber);
 
 }

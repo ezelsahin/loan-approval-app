@@ -1,7 +1,9 @@
 package com.paycore.loanapproval.service.impl;
 
 import com.paycore.loanapproval.entity.Loan;
+import com.paycore.loanapproval.entity.RequestStatus;
 import com.paycore.loanapproval.exception.NotFoundException;
+import com.paycore.loanapproval.repository.ApplicantRepository;
 import com.paycore.loanapproval.repository.LoanResultRepository;
 import com.paycore.loanapproval.service.LoanRequestService;
 import com.paycore.loanapproval.service.RatingCalculationService;
@@ -18,6 +20,9 @@ public class LoanRequestServiceImpl implements LoanRequestService {
 
     @Autowired
     private LoanResultRepository loanResultRepository;
+
+    @Autowired
+    private ApplicantRepository applicantRepository;
 
     @Autowired
     private RatingCalculationService ratingCalculationService;
@@ -38,11 +43,32 @@ public class LoanRequestServiceImpl implements LoanRequestService {
     public Loan sendRequest(String idNumber, int monthlyIncome){
         int rating = ratingCalculationService.getRating();
         int maxLimit = maxLimit(rating, monthlyIncome);
-        String requestStatus = (loanStatus(maxLimit) == true ? "APPROVED" : "DENIED");
+        RequestStatus requestStatus = (loanStatus(maxLimit) == true ? RequestStatus.APPROVED : RequestStatus.DENIED);
 
-        Loan loan = new Loan(idNumber, requestStatus, maxLimit);
+        Loan loan = new Loan(idNumber, requestStatus, maxLimit, rating);
+
+        System.out.println(sendSms(idNumber, requestStatus, maxLimit));
 
         return loanResultRepository.save(loan);
+    }
+
+    @Override
+    public String sendSms(String idNumber, RequestStatus requestStatus, int MaxLimit){
+
+        String phoneNumber = applicantRepository.findByIdNumber(idNumber).getPhoneNumber();
+
+        String message = phoneNumber + ": Your loan request " + requestStatus + "! The maximum loan limit you can get is " + MaxLimit + " TL!";
+
+        return message;
+    }
+
+    @Override
+    public String showSms(String phoneNumber){
+        String idNumber = applicantRepository.findByPhoneNumber(phoneNumber).getIdNumber();
+        Optional<String> message = Optional.ofNullable(sendSms(idNumber,
+                loanResultRepository.findByIdNumber(idNumber).getRequestStatus(),
+                loanResultRepository.findByIdNumber(idNumber).getLoanLimit()));
+        return message.orElseThrow(() -> new NotFoundException("There is no SMS to show! Loan application"));
     }
 
     @Override

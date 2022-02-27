@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface ApplicantService {
 
-    Applicant getApplicant(int id); // kullanıcıyı getir
+    Applicant getApplicant(int id); // id ile kullanıcıyı getir
+
+    Applicant getApplicant(String idNumber); // idNumber ile kullanıcıyı getir
 
     List<Applicant> getAllApplicants(); // tüm kullanıcıları getir
 

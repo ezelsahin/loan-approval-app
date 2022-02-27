@@ -3,6 +3,7 @@ package com.paycore.loanapproval.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paycore.loanapproval.entity.Loan;
+import com.paycore.loanapproval.entity.RequestStatus;
 import com.paycore.loanapproval.exception.handler.GenericExceptionHandler;
 import com.paycore.loanapproval.service.impl.LoanRequestServiceImpl;
 import org.junit.Assert;
@@ -47,9 +48,9 @@ class LoanRequestControllerTest {
 
     private List<Loan> getTestLoans() {
         List<Loan> loans = new ArrayList<>();
-        Loan loan1 = new Loan("98765432101", "APPROVED", 20000, 1250);
-        Loan loan2 = new Loan("98765432102", "DENIED", 0, 350);
-        Loan loan3 = new Loan("98765432103", "APPROVED", 15000, 850);
+        Loan loan1 = new Loan("98765432101", RequestStatus.APPROVED, 20000, 1250);
+        Loan loan2 = new Loan("98765432102", RequestStatus.DENIED, 0, 350);
+        Loan loan3 = new Loan("98765432103", RequestStatus.APPROVED, 15000, 850);
         loans.add(loan1);
         loans.add(loan2);
         loans.add(loan3);
@@ -88,7 +89,7 @@ class LoanRequestControllerTest {
         // stub
         when(loanRequestService.getLoan("98765432101")).thenReturn(expectedLoans.get(0));
 
-        MockHttpServletResponse response = mvc.perform(get("/loan/98765432101")
+        MockHttpServletResponse response = mvc.perform(get("/loan/idNumber/98765432101")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn().getResponse();

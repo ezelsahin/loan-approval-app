@@ -1,18 +1,25 @@
 package com.paycore.loanapproval.service.impl;
 
+import com.paycore.loanapproval.entity.Applicant;
 import com.paycore.loanapproval.entity.Loan;
+import com.paycore.loanapproval.entity.RequestStatus;
 import com.paycore.loanapproval.exception.NotFoundException;
+import com.paycore.loanapproval.repository.ApplicantRepository;
 import com.paycore.loanapproval.repository.LoanResultRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,8 +28,11 @@ class LoanRequestServiceImplTest {
     @Mock
     private LoanResultRepository loanResultRepository;
 
-    @InjectMocks
+    @Mock
     private RatingCalculationServiceImpl ratingCalculationService;
+
+    @Mock
+    private ApplicantRepository applicantRepository;
 
     @InjectMocks
     private LoanRequestServiceImpl loanRequestService;
@@ -104,21 +114,27 @@ class LoanRequestServiceImplTest {
         String idNumber = "98765432101";
         int monthlyIncome = 6000;
         //int rating = ratingCalculationService.getRating();
+        Applicant applicant = new Applicant();
+        applicant.setPhoneNumber("12312123");
 
+        Loan loan = new Loan(idNumber,RequestStatus.DENIED,0,120);
         //stub
-        when(ratingCalculationService.getRating()).thenReturn(ratingCalculationService.getRating());
-        when(loanRequestService.sendRequest(idNumber, monthlyIncome)).thenReturn(loanResultRepository.findByIdNumber(idNumber));
+        when(ratingCalculationService.getRating()).thenReturn(120);
 
-        Loan loan = loanRequestService.sendRequest(idNumber, monthlyIncome);
+        when(applicantRepository.findByIdNumber(idNumber)).thenReturn(applicant);
+
+        loanRequestService.sendRequest(idNumber, monthlyIncome);
 
         //validation
         Assert.assertEquals(loan.getIdNumber(), idNumber);
+
+        verify(loanResultRepository, Mockito.times(1)).save(eq(loan));
     }
 
     @Test
     void getLoan_successful() {
         //init
-        Loan expectedLoan = new Loan("98765432101", "APPROVED", 20000, 1250);
+        Loan expectedLoan = new Loan("98765432101", RequestStatus.APPROVED, 20000, 1250);
 
         //stub
         when(loanResultRepository.findByIdNumber(expectedLoan.getIdNumber())).thenReturn(expectedLoan);
@@ -147,8 +163,8 @@ class LoanRequestServiceImplTest {
     @Test
     void getAllLoanRequests() {
         //init
-        Loan loan1 = new Loan("98765432101", "APPROVED", 20000, 1250);
-        Loan loan2 = new Loan("98765432102", "DENIED", 0, 350);
+        Loan loan1 = new Loan("98765432101", RequestStatus.APPROVED, 20000, 1250);
+        Loan loan2 = new Loan("98765432102", RequestStatus.DENIED, 0, 350);
         List<Loan> expectedLoans = new ArrayList<>();
         expectedLoans.add(loan1);
         expectedLoans.add(loan2);

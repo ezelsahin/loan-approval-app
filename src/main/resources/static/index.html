@@ -1,0 +1,99 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Loan Approval System</title>
+</head>
+<body>
+<div>
+    <h2>Welcome to Loan Limit Approval Service</h2>
+
+    <p>Through this service you may learn the maximum loan limit you can get with your current financial situation!</p>
+
+    <h2>Maximum Loan Limit Query</h2>
+    <form id="applyForm">
+        <table>
+            <tr>
+                <td>ID Number</td>
+                <td><input type="text" id="idNumber" name="idNumber" minlength="11" maxlength="11" required/></td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" id="firstName" name="firstName" required/></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" id="lastName" name="lastName" required/></td>
+            </tr>
+            <tr>
+                <td>Monthly Income</td>
+                <td><input type="text" id="monthlyIncome" name="monthlyIncome" required/></td>
+            </tr>
+            <tr>
+                <td>Phone Number</td>
+                <td><input type="text" id="phoneNumber" name="phoneNumber" placeholder="5551112233" minlength="10" maxlength="10" required/></td>
+            </tr>
+            <tr>
+                <td><button type="submit">Request Maximum Loan Limit</button></td>
+                <td id="message"></td>
+            </tr>
+        </table>
+    </form>
+
+
+    <h2>Show Loan Limit Request Status</h2>
+
+    <form id="showForm">
+        <table>
+            <tr>
+                <td>ID Number</td>
+                <td><input type="text" id="show_idNumber" minlength="11" maxlength="11" required/></td>
+            </tr>
+            <tr>
+                <td><button type="submit">Show Request Status</button></td>
+            </tr>
+        </table>
+        <div id="showResults"></div>
+    </form>
+
+</div>
+<script>
+    const applyForm = document.getElementById("applyForm");
+    applyForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch("http://localhost:8080/loan/submit",{
+            method:'post',
+            body:formData
+        }).then(function(response){
+            console.log(response);
+            messageDocument = document.getElementById("message");
+            messageDocument.textContent = "You have successfully submitted your request.";
+            messageDocument.style.color = "green";
+        }).catch(function(error){
+            console.log(error)
+            messageDocument = document.getElementById("message");
+            messageDocument.textContent = error.message;
+            messageDocument.style.color = "red";
+        })
+    })
+    
+    const showForm = document.getElementById("showForm");
+    showForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const idNumber = document.getElementById("show_idNumber").value
+        fetch(`http://localhost:8080/loan/idNumber/${idNumber}`,{
+            method:'get',
+        }).then(async function(response){
+            console.log(response);
+            messageDocument = document.getElementById("showResults");
+            messageDocument.textContent = await response.text();
+            messageDocument.style.color = "green";
+        }).catch(function(error){
+            console.log(error)
+            messageDocument = document.getElementById("showResults");
+            messageDocument.textContent = error.message;
+            messageDocument.style.color = "red";
+        })
+    })
+</script>
+</body>
+</html>

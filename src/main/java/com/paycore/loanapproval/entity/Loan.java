@@ -16,8 +16,8 @@ public class Loan {
     @Id
     private String idNumber;
 
-    // @Enumerated(EnumType.STRING)
-    private String requestStatus;
+    @Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus;
 
     private int loanLimit;
 

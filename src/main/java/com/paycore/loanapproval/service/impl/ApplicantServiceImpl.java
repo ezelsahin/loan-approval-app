@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,12 @@ public class ApplicantServiceImpl implements ApplicantService {
     @Override
     public Applicant getApplicant(int id){
         return applicantRepository.findById(id).orElseThrow(() -> new NotFoundException("Applicant"));
+    };
+
+    @Override
+    public Applicant getApplicant(String idNumber){
+        Optional<Applicant> byIdNumber = Optional.ofNullable(applicantRepository.findByIdNumber(idNumber));
+        return byIdNumber.orElseThrow(() -> new NotFoundException("Applicant"));
     };
 
     @Override
