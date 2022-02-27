@@ -4,8 +4,6 @@ import com.paycore.loanapproval.entity.Applicant;
 import com.paycore.loanapproval.exception.NotFoundException;
 import com.paycore.loanapproval.repository.ApplicantRepository;
 import org.junit.Assert;
-import org.junit.jupiter.api.AssertionsKt;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -110,7 +108,7 @@ class ApplicantServiceImplTest {
         Applicant expectedApplicant = new Applicant(1, "98765432101", "Ali", "Tatlı", 4000, "5351234561");
 
         //stub
-        when(applicantRepository.save(expectedApplicant)).thenReturn(expectedApplicant); // bu satır gerekli midir?
+        when(applicantRepository.save(expectedApplicant)).thenReturn(expectedApplicant);
 
         //then
         applicantService.addApplicant(expectedApplicant);
@@ -130,12 +128,11 @@ class ApplicantServiceImplTest {
         expectedApplicant.setFirstName("Veli");
         expectedApplicant.setMonthlyIncome(6000);
         applicants.add(expectedApplicant);
-        when(applicantRepository.findById(eq(1))).thenReturn(Optional.of(expectedApplicant));
 
         //stub
-        // when(applicants.get(1)).thenReturn(actualApplicant);
+        when(applicantRepository.findById(eq(1))).thenReturn(Optional.of(expectedApplicant));
         Boolean result = applicantService.updateApplicant(1, expectedApplicant);
-        //when(applicantRepository.save(expectedApplicant)).thenReturn(actualApplicant); // bu satır gerekli midir?
+        //when(applicantRepository.save(expectedApplicant)).thenReturn(actualApplicant);
         Assert.assertTrue(result);
 
 

@@ -17,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -104,7 +103,7 @@ class LoanRequestServiceImplTest {
         int rating = ratingCalculationService.getRating();
 
         //validation
-        Assert.assertTrue(rating >= 100 ? (rating <= 1500 ? true : false) : false);
+        Assert.assertTrue(rating >= 100 & rating <= 1500);
 
     }
 
@@ -115,18 +114,18 @@ class LoanRequestServiceImplTest {
         int monthlyIncome = 6000;
         //int rating = ratingCalculationService.getRating();
         Applicant applicant = new Applicant();
-        applicant.setPhoneNumber("12312123");
+        applicant.setPhoneNumber("5557771144");
 
-        Loan loan = new Loan(idNumber,RequestStatus.DENIED,0,120);
+        Loan loan = new Loan(idNumber, RequestStatus.DENIED,0,320);
         //stub
-        when(ratingCalculationService.getRating()).thenReturn(120);
+        when(ratingCalculationService.getRating()).thenReturn(320);
 
         when(applicantRepository.findByIdNumber(idNumber)).thenReturn(applicant);
 
         loanRequestService.sendRequest(idNumber, monthlyIncome);
 
         //validation
-        Assert.assertEquals(loan.getIdNumber(), idNumber);
+        //Assert.assertEquals(loan.getIdNumber(), idNumber);
 
         verify(loanResultRepository, Mockito.times(1)).save(eq(loan));
     }

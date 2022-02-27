@@ -10,7 +10,7 @@ aylık gelir ve telefon numarası bilgilerinden oluşmaktadır. Form aracılığ
 işlemi için ilgili metoda iletilmektedir. Aynı zamanda alınan bilgiler ile kullanıcı profili kullanıcı veritabanına 
 kaydedilmektedir. Yapılan sorgulama işlemi sonucunda ortaya çıkan çekilebilir maksimum kredi miktarı, kullanıcının 
 telefon numarasına SMS ile gönderilmektedir. (SMS ile gönderme işlemi gerçekten SMS göndermemekte, yalnızca basit bir 
-metot ile simüle etmektedir)
+metot ile simüle etmektedir. Oluşturulan SMS mesajı terminalde gösterilmektedir.)
 
 Kredi limiti sorgulama işleminin yanı sıra kullanıcılar daha önceden gerçekleştirilmiş bir kredi limiti sorgulama 
 işleminin sonucunu da görüntüleyebilmektedir. Bunun için yalnızca kimlik numarasıyla bir sorgulama yapılmakta ve ilgili 
@@ -26,6 +26,7 @@ görüntülenebilmektedir.
 ## Kullanılan Teknolojiler
 
 - Spring Boot
+- Hibernate
 - Maven
 - PostgreSQL
 - Swagger
@@ -35,7 +36,10 @@ görüntülenebilmektedir.
 - Applicant
 - Loan
 
-## Uygulama Kurulum Adımları
+## Projeyi Çalıştırmak İçin Gerekenler
+- Sisteminizde PostgreSQL kurulu olmalıdır
+- "application.properties" dosyasında PostgreSQL username ve password alanları kendi bilgilerinizle güncellenmelidir
 - Uygulama PostgreSQL üzerinden "5434" portunu kullanmaktadır, bu portun boşta olduğundan emin olunuz
+- Swagger adresi: http://localhost:8080/swagger-ui/index.html?configUrl=/loan-approval-app/swagger-config
 - 
 
